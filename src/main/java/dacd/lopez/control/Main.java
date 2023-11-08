@@ -1,10 +1,19 @@
 package dacd.lopez.control;
+
 import com.google.gson.Gson;
-import dacd.lopez.model.List;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import dacd.lopez.model.Weather;
 import org.jsoup.Jsoup;
-
-import java.util.TimerTask;
+import org.jsoup.nodes.Document;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,25 +22,50 @@ public class Main {
             String jsonString = Jsoup.connect(url).ignoreContentType(true).execute().body();
 
             Gson gson = new Gson();
-            List weatherList = gson.fromJson(jsonString, List.class);
+            JsonObject weathers = gson.fromJson(jsonString, JsonObject.class);
+            JsonArray list = weathers.getAsJsonObject().getAsJsonArray("list");
 
+            System.out.println(weathers);
+            System.out.println(list);
 
-            for (Weather weather : weatherList.getList()) {
-                System.out.println("Clouds:" + weather.getClouds().getAll() + "\n" +
-                        "Temperature:" + weather.getMain().getTemp() + "\n" +
-                        "Humidity:" + weather.getMain().getHumidity() + "\n" +
-                        "Wind speed:" + weather.getWind().getSpeed());
-                if (weather.getRain() == null) {
-                    System.out.println("No rain\n");
-                } else {
-                    System.out.println("Pop: " + weather.getRain().getPop() + "\n");
-                }
+            List<Weather> weatherList = new ArrayList<>();
+            System.out.println(weatherList);
+
+            for (JsonElement element : list) {
+                JsonObject weather = element.getAsJsonObject();
+
+                JsonObject main = weather.get("main").getAsJsonObject();
+                Double temp = main.get("temp").getAsDouble();
+
+                Double rain = weather.get("pop").getAsDouble();
+
+                int humidity = main.get("humidity").getAsInt();
+
+                JsonObject clouds = weather.get("clouds").getAsJsonObject();
+                int all = clouds.get("all").getAsInt();
+
+                JsonObject wind = weather.get("wind").getAsJsonObject();
+                Double speed = wind.get("speed").getAsDouble();
+
+                long dt = weather.get("dt").getAsLong();
+
+                long unixTimestamp = dt;
+                Instant weatherInstant = Instant.ofEpochSecond(unixTimestamp);
+
+                Weather weatherObject = new Weather(temp, humidity, rain, all, speed, weatherInstant);
+                weatherList.add(weatherObject);
+            }
+
+            for (Weather weatherIter : weatherList) {
+                System.out.println("Temp: " + weatherIter.getTemp() + ", Pop: " + weatherIter.getRain() +
+                        ", Humidity: " + weatherIter.getHumidity() + ", Clouds: " + weatherIter.getAll() +
+                        ", Wind Speed: " + weatherIter.getSpeed() + ", Date&Hour: " + weatherIter.getWeatherInstant());
             }
 
 
-
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (Exception exception){
+            exception.printStackTrace();
         }
+
     }
 }

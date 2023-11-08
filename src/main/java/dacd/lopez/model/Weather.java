@@ -1,38 +1,45 @@
 package dacd.lopez.model;
+
 import java.time.Instant;
 
 public class Weather {
-    private final Cloud clouds;
-    private final Wind wind;
-    private final Temperature main;
-    private final Rain rain;
-    private final int dt;
+    private Double temp;
+    private int humidity;
+    private Double rain;
+    private int all;
+    private Double speed;
+    private Instant weatherInstant;
 
-    public Weather(Cloud clouds, Wind wind, Temperature main, Rain rain, int dt) {
-        this.clouds = clouds;
-        this.wind = wind;
-        this.main = main;
+    public Weather(Double temp, int humidity, Double rain, int all, Double speed, Instant weatherInstant) {
+        this.temp = temp;
+        this.humidity = humidity;
         this.rain = rain;
-        this.dt = dt;
+        this.all = all;
+        this.speed = speed;
+        this.weatherInstant = weatherInstant;
     }
 
-    public Cloud getClouds() {
-        return clouds;
+    public Double getTemp() {
+        return temp;
     }
 
-    public Wind getWind() {
-        return wind;
+    public int getHumidity() {
+        return humidity;
     }
 
-    public Temperature getMain() {
-        return main;
-    }
-
-    public Rain getRain() {
+    public Double getRain() {
         return rain;
     }
 
-    public int getDt() {
-        return dt;
+    public int getAll() {
+        return all;
+    }
+
+    public Double getSpeed() {
+        return speed;
+    }
+
+    public Instant getWeatherInstant() {
+        return weatherInstant;
     }
 }
