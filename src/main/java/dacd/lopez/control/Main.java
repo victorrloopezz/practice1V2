@@ -25,11 +25,7 @@ public class Main {
             JsonObject weathers = gson.fromJson(jsonString, JsonObject.class);
             JsonArray list = weathers.getAsJsonObject().getAsJsonArray("list");
 
-            System.out.println(weathers);
-            System.out.println(list);
-
             List<Weather> weatherList = new ArrayList<>();
-            System.out.println(weatherList);
 
             for (JsonElement element : list) {
                 JsonObject weather = element.getAsJsonObject();
