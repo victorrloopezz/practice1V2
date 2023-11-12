@@ -8,15 +8,21 @@ public class Weather {
     private Double rain;
     private int all;
     private Double speed;
-    private Instant weatherInstant;
+    private Location location;
+    private Instant ts;
 
-    public Weather(Double temp, int humidity, Double rain, int all, Double speed, Instant weatherInstant) {
+    public Weather(Double temp, int humidity, Double rain, int all, Double speed, Location location, Instant ts) {
         this.temp = temp;
         this.humidity = humidity;
         this.rain = rain;
         this.all = all;
         this.speed = speed;
-        this.weatherInstant = weatherInstant;
+        this.location = location;
+        this.ts = ts;
+    }
+    public String provideParameters() {
+        return String.format("Temp: %.2f, Humidity: %d, Rain: %.2f, Clouds: %d, Wind Speed: %.2f",
+                temp, humidity, rain, all, speed);
     }
 
     public Double getTemp() {
@@ -39,7 +45,11 @@ public class Weather {
         return speed;
     }
 
-    public Instant getWeatherInstant() {
-        return weatherInstant;
+    public Location getLocation() {
+        return location;
+    }
+
+    public Instant getTs() {
+        return ts;
     }
 }
