@@ -9,5 +9,4 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 
 public class Main {
-
 }

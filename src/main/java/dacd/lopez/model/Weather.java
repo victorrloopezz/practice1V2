@@ -8,16 +8,14 @@ public class Weather {
     private Double rain;
     private int all;
     private Double speed;
-    private Location location;
     private Instant ts;
 
-    public Weather(Double temp, int humidity, Double rain, int all, Double speed, Location location, Instant ts) {
+    public Weather(Double temp, int humidity, Double rain, int all, Double speed, Instant ts) {
         this.temp = temp;
         this.humidity = humidity;
         this.rain = rain;
         this.all = all;
         this.speed = speed;
-        this.location = location;
         this.ts = ts;
     }
     public String provideParameters() {
@@ -43,10 +41,6 @@ public class Weather {
 
     public Double getSpeed() {
         return speed;
-    }
-
-    public Location getLocation() {
-        return location;
     }
 
     public Instant getTs() {

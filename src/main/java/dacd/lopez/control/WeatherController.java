@@ -3,10 +3,6 @@ package dacd.lopez.control;
 import dacd.lopez.model.Location;
 import dacd.lopez.model.Weather;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -37,7 +33,7 @@ public class WeatherController {
 
         createInstant(instantList);
         getWeatherCall(instantList, locationList, weatherArrayList);
-        //loadCall(instantList, locationList);
+        loadCall(instantList, locationList);
     }
 
     public static ArrayList<Instant> createInstant(ArrayList<Instant> instants) {
@@ -58,7 +54,7 @@ public class WeatherController {
 
         for (Location iteredLocation : locationList) {
             for (Instant iteredInstant : instantList) {
-                Weather weather = WeatherProvider.WeatherGet(iteredLocation, iteredInstant);
+                Weather weather = weatherProvider.getWeather(iteredLocation, iteredInstant);
 
                 if (weather != null) {
                     System.out.println("Weather for " + iteredLocation.getName() + " at " + iteredInstant + ":");
@@ -74,17 +70,17 @@ public class WeatherController {
         return weatherArrayList;
     }
 
-    //public static void loadCall(ArrayList<Instant> instantList, List<Location> locationList){
-    //WeatherStore weatherStore = new SqliteWeatherStore();
-    //for (Location iteredLocation : locationList) {
-    //for (Instant iteredInstant : instantList) {
-    // weatherStore.load(iteredLocation, iteredInstant);
-    //}
-    //}
-    //}
-
-    public static void main(String[] args) {
-        WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider());
-        weatherController.execute();
+    public static void loadCall(ArrayList<Instant> instantList, List<Location> locationList){
+    WeatherStore weatherStore = new SqliteWeatherStore();
+    for (Location iteredLocation : locationList) {
+        for (Instant iteredInstant : instantList) {
+            weatherStore.load(iteredLocation, iteredInstant);
+            }
+        }
     }
+
+            public static void main(String[] args) {
+                WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider());
+                weatherController.execute();
+            }
 }

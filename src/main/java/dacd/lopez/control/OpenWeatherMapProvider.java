@@ -4,20 +4,23 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dacd.lopez.model.Weather;
 import org.jsoup.Jsoup;
-
+import dacd.lopez.model.Weather;
 import dacd.lopez.model.Location;
 
 import java.io.IOException;
 import java.time.Instant;
 
 public class OpenWeatherMapProvider implements WeatherProvider {
-    public Weather WeatherGet(Location location, Instant instant){
+    String TEMPLATE_URL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
+    String apiKey = "&appid=080f891f7c9879d5902167d17af70f62&units=metric";
+
+    @Override
+    public Weather getWeather(Location location, Instant instant){
         Weather weatherObject = null;
         try {
-            String url = "https://api.openweathermap.org/data/2.5/forecast?lat=" + location.getLatitude() + "&lon=" +
-                    location.getLongitude() + "&appid=080f891f7c9879d5902167d17af70f62&units=metric";
+            String url = TEMPLATE_URL + location.getLatitude() + "&lon=" +
+                    location.getLongitude() + apiKey;
 
             String jsonString = Jsoup.connect(url).ignoreContentType(true).execute().body();
 
@@ -47,7 +50,7 @@ public class OpenWeatherMapProvider implements WeatherProvider {
                 Instant weatherInstant = Instant.ofEpochSecond(unixTimestamp);
 
                 if (weatherInstant.equals(instant)) {
-                    weatherObject = new Weather(temp, humidity, rain, all, speed, location, weatherInstant);
+                    weatherObject = new Weather(temp, humidity, rain, all, speed, weatherInstant);
                     break;
                 }
             }
