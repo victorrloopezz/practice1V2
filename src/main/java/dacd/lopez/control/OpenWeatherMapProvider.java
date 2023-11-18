@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.time.Instant;
 
 public class OpenWeatherMapProvider implements WeatherProvider {
-    String TEMPLATE_URL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
-    String apiKey = "&appid=080f891f7c9879d5902167d17af70f62&units=metric";
+    private String TEMPLATE_URL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
+    private String apiKey = "&appid=080f891f7c9879d5902167d17af70f62&units=metric";
 
     @Override
     public Weather getWeather(Location location, Instant instant){
