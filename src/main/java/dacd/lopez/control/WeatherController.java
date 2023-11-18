@@ -50,7 +50,7 @@ public class WeatherController {
 
     public static ArrayList<Weather> getWeatherCall(ArrayList<Instant> instantList, List<Location> locationList,
                                                     ArrayList<Weather> weatherArrayList) {
-        WeatherProvider weatherProvider = new OpenWeatherMapProvider();
+        WeatherProvider weatherProvider = new OpenWeatherMapProvider(OpenWeatherMapProvider.getApiKey());
 
         for (Location iteredLocation : locationList) {
             for (Instant iteredInstant : instantList) {
@@ -81,7 +81,7 @@ public class WeatherController {
     }
 
     public static void main(String[] args) {
-        WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider());
+        WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider(OpenWeatherMapProvider.getApiKey()));
         weatherController.execute();
     }
 }

@@ -5,12 +5,12 @@ import java.util.Timer;
 
 public class Main {
     public static void main(String[] args) {
-        Timer timer = new Timer();
 
+        Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider());
+                WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider(args[0]));
                 weatherController.execute();
                 System.out.println("Program has been updated");
             }

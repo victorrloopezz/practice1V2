@@ -12,15 +12,22 @@ import java.io.IOException;
 import java.time.Instant;
 
 public class OpenWeatherMapProvider implements WeatherProvider {
-    private String TEMPLATE_URL = "https://api.openweathermap.org/data/2.5/forecast?lat=";
-    private String apiKey = "&appid=080f891f7c9879d5902167d17af70f62&units=metric";
+    private static String apiKey;
+
+    public OpenWeatherMapProvider(String apiKey) {
+        this.apiKey = apiKey;
+    }
+
+    public static String getApiKey() {
+        return apiKey;
+    }
 
     @Override
     public Weather getWeather(Location location, Instant instant){
         Weather weatherObject = null;
         try {
-            String url = TEMPLATE_URL + location.getLatitude() + "&lon=" +
-                    location.getLongitude() + apiKey;
+            String url = "https://api.openweathermap.org/data/2.5/forecast?lat=" + location.getLatitude() +
+                    "&lon=" + location.getLongitude() + apiKey + "&units=metric";
 
             String jsonString = Jsoup.connect(url).ignoreContentType(true).execute().body();
 
