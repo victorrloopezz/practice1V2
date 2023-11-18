@@ -1,44 +1,42 @@
-# Practice1V2(WeatherProvider)
-DACD, Grado en Ciencia e Ingeniería de Datos, curso 2023-24, ULPGC, Escuela de Ingeniería Informática.
+# Practice1V2 (WeatherProvider)
+DACD, Degree in Data Science and Engineering, academic year 2023-24, ULPGC, School of Computer Engineering.
 
-## Funcionalidad
-El proyecto implementa un sistema automatizado para obtener datos meteorológicos de diversas ubicaciones utilizando la API de OpenWeatherMap, donde un controlador (WeatherController) coordina la obtención de datos, almacenándolos en una base de datos SQLite. 
-El programa principal (Main) utiliza un temporizador para ejecutar esta tarea periódicamente y las clases Location y Weather modelan la información de ubicación y datos meteorológicos, respectivamente.
+## Functionality
+The project implements an automated system to obtain weather data from various locations using the OpenWeatherMap API, where a controller (WeatherController) coordinates the data retrieval and stores it in an SQLite database.
+The main program (Main) uses a timer to execute this task periodically, and the classes Location and Weather model location information and weather data, respectively.
 
-## Recursos empleados
-### Entorno de desarrollo y herramientas de control: 
-El proyecto esta desarrollado en IntelliJ IDEA empleando la herramienta de control de versiones Git.
+## Resources Used
+### Development Environment and Version Control Tools:
+The project is developed in IntelliJ IDEA using the Git version control tool.
 
-### Gestión de Dependencias:
-El proyecto utiliza Maven como sistema de gestión de proyectos y construcción. El archivo POM (pom.xml) define la configuración del proyecto, incluyendo las dependencias necesarias para su ejecución.
+### Dependency Management:
+The project uses Maven as a project management and build system. The POM file (pom.xml) defines the project configuration, including the dependencies necessary for its execution.
 
-### Bibliotecas y Frameworks:
-Se utiliza la biblioteca GSON para el procesamiento de JSON.
-La librería Jsoup se emplea para realizar solicitudes web y procesar respuestas HTML.
+### Libraries and Frameworks:
+The GSON library is used for JSON processing. The Jsoup library is employed for making web requests and processing HTML responses.
 
-### Base de Datos:
-Se utiliza SQLite para almacenar datos meteorológicos.
+### Database:
+SQLite is used to store weather data.
 
-### Planificación Temporal:
-Se emplea la clase Timer para ejecutar tareas periódicas, en este caso, la obtención y almacenamiento de datos meteorológicos.
+### Temporal Planning:
+The Timer class is used to execute periodic tasks, in this case, obtaining and storing weather data.
 
-## Diseño
-### Principios de diseño:
-Se estructura en 2 paquetes principales(control y model).
+## Design
+### Design Principles:
+It is structured into 2 main packages (control and model).
 
-*Responsabilidad Única:*
-Cada clase tiene una responsabilidad única y específica.
+*Single Responsibility:* Each class has a unique and specific responsibility.
 
-*Abierto/Cerrado:* El código está diseñado para ser extendido sin necesidad de modificarlo.
+*Open/Closed:* The code is designed to be extended without the need for modification.
 
-*Inversión de Dependencia:* Se utilizan interfaces para desacoplar componentes y facilitar la sustitución.
+*Dependency Inversion:* Interfaces are used to decouple components and facilitate substitution.
 
-### Patrones de diseño:
-*Observer:* Se emplea en la clase WeatherController para coordinar operaciones en diferentes ubicaciones e instantes.
+### Design Patterns:
+*Observer:* Used in the WeatherController class to coordinate operations in different locations and instances.
 
-*Singleton (enfoque):* La clase OpenWeatherMapProvider utiliza un método estático para obtener la clave de la API.
+*Singleton (approach):* The OpenWeatherMapProvider class uses a static method to obtain the API key.
 
-*Diagrama de clases:*
+*Class Diagram:*
 
 ![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/2a4c8755-87b1-48c8-9e9a-ffc0e1d5cab3)
 
