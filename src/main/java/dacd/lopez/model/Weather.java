@@ -42,8 +42,4 @@ public class Weather {
     public Double getSpeed() {
         return speed;
     }
-
-    public Instant getTs() {
-        return ts;
-    }
 }
