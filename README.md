@@ -40,4 +40,5 @@ Cada clase tiene una responsabilidad única y específica.
 
 *Diagrama de clases:*
 
-![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/a71cdfc4-b044-4a27-8496-7c90b9112721)
+![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/2a4c8755-87b1-48c8-9e9a-ffc0e1d5cab3)
+
