@@ -24,6 +24,8 @@ Se emplea la clase Timer para ejecutar tareas periódicas, en este caso, la obte
 
 ## Diseño
 ### Principios de diseño:
+Se estructura en 2 paquetes principales(control y model).
+
 *Responsabilidad Única:*
 Cada clase tiene una responsabilidad única y específica.
 
