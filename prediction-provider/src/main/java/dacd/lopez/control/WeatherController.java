@@ -10,12 +10,14 @@ import java.util.List;
 
 public class WeatherController {
     public WeatherProvider weatherProvider;
+    public static WeatherStore weatherStore;
 
-    public WeatherController(WeatherProvider weatherProvider) {
+    public WeatherController(WeatherProvider weatherProvider, WeatherStore weatherStore) {
         this.weatherProvider = weatherProvider;
+        this.weatherStore = weatherStore;
     }
 
-    void execute() {
+    public void execute() {
         Location granCanaria = new Location(28.0997300, -15.4134300, "Las Palmas de Gran Canaria");
         Location tenerife = new Location(28.46824, -16.25462, "Santa Cruz de Tenerife");
         Location fuerteventura = new Location(28.7307900, -13.8674900, "Corralejo Fuerteventura");
@@ -58,6 +60,8 @@ public class WeatherController {
                 if (weather != null) {
                     System.out.println("Weather for " + iteredLocation.getName() + " at " + iteredInstant + ":");
                     System.out.println(weather.provideParameters());
+                    System.out.println("\n");
+                    weatherStore.save(weather);
                     System.out.println("\n");
                 } else {
                     System.out.println("No weather data found for " + iteredLocation.getName() + " at " + iteredInstant);

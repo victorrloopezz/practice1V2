@@ -1,9 +1,7 @@
 package dacd.lopez.control;
 
-import dacd.lopez.model.Location;
-
-import java.time.Instant;
+import dacd.lopez.model.Weather;
 
 public interface WeatherStore {
-    void save(Location iteredLocation, Instant iteredInstant);
+    void save(Weather weather);
 }

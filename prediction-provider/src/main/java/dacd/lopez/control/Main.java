@@ -10,12 +10,12 @@ public class Main {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider(args[0]));
+                WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider(args[0]),
+                        new JmsWeatherStore());
                 weatherController.execute();
                 System.out.println("Program has been updated");
             }
         };
-
         long period = 6 * 60 * 60 * 1000;
         timer.schedule(task, 0, period);
     }

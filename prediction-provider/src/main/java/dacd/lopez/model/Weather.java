@@ -9,8 +9,8 @@ public class Weather {
     private int clouds;
     private Double windSpeed;
     private Instant ts;
-    private static Instant ss = Instant.now();
-    private static String predictionTs = "event-store-builder";
+    private static String ss = "event-store-builder";
+    private static Instant predictionTs = Instant.now();
 
     public Weather(Double temperature, int humidity, Double rain, int clouds, Double windSpeed, Instant ts) {
         this.temperature = temperature;
@@ -19,38 +19,6 @@ public class Weather {
         this.clouds = clouds;
         this.windSpeed = windSpeed;
         this.ts = ts;
-    }
-
-    public Double getTemperature() {
-        return temperature;
-    }
-
-    public int getHumidity() {
-        return humidity;
-    }
-
-    public Double getRain() {
-        return rain;
-    }
-
-    public int getClouds() {
-        return clouds;
-    }
-
-    public Double getWindSpeed() {
-        return windSpeed;
-    }
-
-    public Instant getTs() {
-        return ts;
-    }
-
-    public static Instant getSs() {
-        return ss;
-    }
-
-    public static String getPredictionTs() {
-        return predictionTs;
     }
 
     public String provideParameters() {

@@ -10,6 +10,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>prediction-provider</module>
+        <module>event-store-builder</module>
     </modules>
 
     <properties>
