@@ -33,7 +33,6 @@ public class WeatherController {
 
         createInstant(instantList);
         getWeatherCall(instantList, locationList, weatherArrayList);
-        saveCall(instantList, locationList);
     }
 
     public static ArrayList<Instant> createInstant(ArrayList<Instant> instants) {
@@ -69,19 +68,5 @@ public class WeatherController {
             System.out.println("\n");
         }
         return weatherArrayList;
-    }
-
-    public static void saveCall(ArrayList<Instant> instantList, List<Location> locationList) {
-        for (Location iteredLocation : locationList) {
-            WeatherStore weatherStore = new SqliteWeatherStore();
-            for (Instant iteredInstant : instantList) {
-                weatherStore.save(iteredLocation, iteredInstant);
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        WeatherController weatherController = new WeatherController(new OpenWeatherMapProvider(OpenWeatherMapProvider.getApiKey()));
-        weatherController.execute();
     }
 }
