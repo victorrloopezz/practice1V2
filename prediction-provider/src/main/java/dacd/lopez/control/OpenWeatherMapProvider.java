@@ -18,10 +18,6 @@ public class OpenWeatherMapProvider implements WeatherProvider {
         this.apiKey = apiKey;
     }
 
-    public static String getApiKey() {
-        return apiKey;
-    }
-
     @Override
     public Weather getWeather(Location location, Instant instant){
         Weather weatherObject = null;
@@ -57,7 +53,7 @@ public class OpenWeatherMapProvider implements WeatherProvider {
                 Instant weatherInstant = Instant.ofEpochSecond(unixTimestamp);
 
                 if (weatherInstant.equals(instant)) {
-                    weatherObject = new Weather(temp, humidity, rain, all, speed, weatherInstant);
+                    weatherObject = new Weather(location,temp, humidity, rain, all, speed, weatherInstant);
                     break;
                 }
             }

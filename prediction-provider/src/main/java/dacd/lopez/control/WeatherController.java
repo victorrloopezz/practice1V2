@@ -3,14 +3,15 @@ package dacd.lopez.control;
 import dacd.lopez.model.Location;
 import dacd.lopez.model.Weather;
 
-import java.time.*;
+import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.List;
 
 public class WeatherController {
-    public WeatherProvider weatherProvider;
-    public static WeatherStore weatherStore;
+    private final WeatherProvider weatherProvider;
+    private final WeatherStore weatherStore;
 
     public WeatherController(WeatherProvider weatherProvider, WeatherStore weatherStore) {
         this.weatherProvider = weatherProvider;
@@ -18,59 +19,48 @@ public class WeatherController {
     }
 
     public void execute() {
-        Location granCanaria = new Location(28.0997300, -15.4134300, "Las Palmas de Gran Canaria");
-        Location tenerife = new Location(28.46824, -16.25462, "Santa Cruz de Tenerife");
-        Location fuerteventura = new Location(28.7307900, -13.8674900, "Corralejo Fuerteventura");
-        Location laPalma = new Location(28.4932900, -17.8501300, "Fuencaliente de La Palma");
-        Location elHierro = new Location(27.6851600, -18.0590100, "El Pinar de El Hierro");
-        Location laGraciosa = new Location(29.2523, -13.5091, "La Graciosa");
-        Location lanzarote = new Location(28.0997300, -15.4134300, "Tiagua Lanzarote");
-        Location laGomera = new Location(28.168611, -17.1966667, "Hermigua La Gomera");
+        List<Location> locationList = createLocationList();
+        List<Instant> instantList = createInstantList();
 
-        List<Location> locationList = List.of(granCanaria, tenerife, fuerteventura, laPalma, elHierro,
-                laGraciosa, lanzarote, laGomera);
-
-        ArrayList<Instant> instantList = new ArrayList<>();
-        ArrayList<Weather> weatherArrayList = new ArrayList<>();
-
-        createInstant(instantList);
-        getWeatherCall(instantList, locationList, weatherArrayList);
-    }
-
-    public static ArrayList<Instant> createInstant(ArrayList<Instant> instants) {
-        for (int i = 0; i < 5; i++) {
-            LocalDate today = LocalDate.now();
-            LocalTime hour = LocalTime.of(12, 0);
-            LocalDateTime todayHour = LocalDateTime.of(today, hour);
-            Instant previusInstant = todayHour.toInstant(ZoneOffset.UTC);
-            Instant nextInstant = previusInstant.plus(i, ChronoUnit.DAYS);
-            instants.add(nextInstant);
-        }
-        return instants;
-    }
-
-    public static ArrayList<Weather> getWeatherCall(ArrayList<Instant> instantList, List<Location> locationList,
-                                                    ArrayList<Weather> weatherArrayList) {
-        WeatherProvider weatherProvider = new OpenWeatherMapProvider(OpenWeatherMapProvider.getApiKey());
-
-        for (Location iteredLocation : locationList) {
-            for (Instant iteredInstant : instantList) {
-                Weather weather = weatherProvider.getWeather(iteredLocation, iteredInstant);
-
+        for (Location location : locationList) {
+            for (Instant instant : instantList) {
+                Weather weather = weatherProvider.getWeather(location, instant);
                 if (weather != null) {
-                    System.out.println("Weather for " + iteredLocation.getName() + " at " + iteredInstant + ":");
-                    System.out.println(weather.provideParameters());
-                    System.out.println("\n");
+                    displayWeather(weather);
                     weatherStore.save(weather);
-                    System.out.println("\n");
                 } else {
-                    System.out.println("No weather data found for " + iteredLocation.getName() + " at " + iteredInstant);
-                    System.out.println("\n");
+                    displayNoWeather(location, instant);
                 }
-                weatherArrayList.add(weather);
             }
-            System.out.println("\n");
         }
-        return weatherArrayList;
+    }
+
+    private void displayWeather(Weather weather) {
+        System.out.println(weather);
+    }
+
+    private void displayNoWeather(Location location, Instant instant) {
+        System.out.println("No weather data found for " + location.getName() + " at " + instant);
+    }
+
+    private List<Location> createLocationList() {
+        return List.of(
+                new Location(28.0997300, -15.4134300, "Las Palmas de Gran Canaria"),
+                new Location(28.46824, -16.25462, "Santa Cruz de Tenerife"),
+                new Location(28.7307900, -13.8674900, "Corralejo Fuerteventura"),
+                new Location(28.4932900, -17.8501300, "Fuencaliente de La Palma"),
+                new Location(27.6851600, -18.0590100, "El Pinar de El Hierro"),
+                new Location(29.2523, -13.5091, "La Graciosa"),
+                new Location(28.0997300, -15.4134300, "Tiagua Lanzarote"),
+                new Location(28.168611, -17.1966667, "Hermigua La Gomera")
+        );
+    }
+
+    private List<Instant> createInstantList() {
+        return IntStream.range(0, 5)
+                .mapToObj(i -> Instant.now().plus(i, ChronoUnit.DAYS)
+                        .truncatedTo(ChronoUnit.DAYS)
+                        .plus(12, ChronoUnit.HOURS))
+                .collect(Collectors.toList());
     }
 }
