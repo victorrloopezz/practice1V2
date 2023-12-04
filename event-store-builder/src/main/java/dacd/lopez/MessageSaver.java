@@ -40,9 +40,9 @@ public class MessageSaver {
 
     private String getEventFilePath() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        Date date = new Date();
 
-        // Crear la estructura de directorios: eventstore/prediction.Weather/{ss}/{YYYYMMDD}.events
+        Date date = new Date(Weather.getPredictionTs().toEpochMilli());
+
         String subDirectory = baseDirectory + "/prediction.Weather/" + Weather.getSs() + "/" + dateFormat.format(date);
         createDirectoryIfNotExists(subDirectory);
 

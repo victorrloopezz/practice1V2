@@ -26,4 +26,8 @@ public class Weather {
     public static String getSs() {
         return ss;
     }
+
+    public static Instant getPredictionTs() {
+        return predictionTs;
+    }
 }
