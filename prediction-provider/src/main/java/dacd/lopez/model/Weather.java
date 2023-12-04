@@ -10,7 +10,7 @@ public class Weather {
     private int clouds;
     private Double windSpeed;
     private Instant ts;
-    private static String ss = "event-store-builder";
+    private static String ss = "prediction-provider";
     private static Instant predictionTs = Instant.now();
 
     public Weather(Location location, Double temperature, int humidity, Double rain, int clouds, Double windSpeed, Instant ts) {
@@ -21,5 +21,9 @@ public class Weather {
         this.clouds = clouds;
         this.windSpeed = windSpeed;
         this.ts = ts;
+    }
+
+    public static String getSs() {
+        return ss;
     }
 }

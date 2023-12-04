@@ -9,7 +9,7 @@ public class JmrWeatherStore {
     private static String topicName = "prediction.Weather";
     private static String clientId = "Lopez";
     private static String subscriptionName = "LopezSubscription";
-    private static String directoryPath = "messages_directory";
+    private static String baseDirectory = "eventstore";
 
     public static void main(String[] args) {
         try {
@@ -20,12 +20,13 @@ public class JmrWeatherStore {
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
+            // Utilizar la estructura de directorios: eventstore/prediction.Weather/{ss}/{YYYYMMDD}.events
             MessageConsumer consumer = session.createDurableSubscriber(session.createTopic(topicName), subscriptionName);
 
             System.out.println("\n");
 
             // Crear una instancia de MessageReceiver
-            MessageSaver messageSaver = new MessageSaver(directoryPath);
+            MessageSaver messageSaver = new MessageSaver(baseDirectory);
 
             consumer.setMessageListener(message -> {
                 try {
