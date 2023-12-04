@@ -10,20 +10,24 @@ import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MessageSaver {
+public class FileEventStore implements EventStore {
     private String baseDirectory;
+    private String currentEventFolder;
+    private String currentEventFilePath;
 
-    public MessageSaver(String baseDirectory) {
+    public FileEventStore(String baseDirectory) {
         this.baseDirectory = baseDirectory;
         createDirectoryIfNotExists();
+        initializeEventFilePath();
     }
 
-    public void receiveAndSaveMessage(String weatherJson) {
+    @Override
+    public void saveEvent(String eventJson) {
         try {
-            saveMessage(getEventFilePath(), weatherJson);
+            saveEventToFile(eventJson);
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error receiving and saving message: " + e.getMessage());
+            System.err.println("Error saving event: " + e.getMessage());
         }
     }
 
@@ -38,15 +42,29 @@ public class MessageSaver {
         }
     }
 
-    private String getEventFilePath() {
+    private void initializeEventFilePath() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-
         Date date = new Date(Weather.getPredictionTs().toEpochMilli());
 
-        String subDirectory = baseDirectory + "/prediction.Weather/" + Weather.getSs() + "/" + dateFormat.format(date);
-        createDirectoryIfNotExists(subDirectory);
+        String formattedDate = dateFormat.format(date);
+        currentEventFolder = baseDirectory + "/prediction.Weather/" + Weather.getSs();
+        createDirectoryIfNotExists(currentEventFolder);
 
-        return subDirectory + "/" + System.currentTimeMillis() + ".events";
+        currentEventFilePath = currentEventFolder + "/" + formattedDate + ".events";
+    }
+
+
+    private void saveEventToFile(String eventJson) throws IOException {
+        String filePath = getEventFilePath();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            writer.write(eventJson);
+            writer.newLine();
+            System.out.println("Event saved to: " + filePath);
+        }
+    }
+
+    private String getEventFilePath() {
+        return currentEventFilePath;
     }
 
     private void createDirectoryIfNotExists(String directoryPath) {
@@ -57,16 +75,6 @@ public class MessageSaver {
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error creating directory: " + e.getMessage());
-        }
-    }
-
-    private void saveMessage(String filePath, String messageContent) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(messageContent);
-            System.out.println("Message saved to: " + filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-            System.err.println("Error saving message to file: " + e.getMessage());
         }
     }
 }

@@ -20,19 +20,17 @@ public class JmrWeatherStore {
 
             Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-            // Utilizar la estructura de directorios: eventstore/prediction.Weather/{ss}/{YYYYMMDD}.events
             MessageConsumer consumer = session.createDurableSubscriber(session.createTopic(topicName), subscriptionName);
 
             System.out.println("\n");
 
-            // Crear una instancia de MessageReceiver
-            MessageSaver messageSaver = new MessageSaver(baseDirectory);
+            FileEventStore eventStore = new FileEventStore(baseDirectory);
 
             consumer.setMessageListener(message -> {
                 try {
                     String weatherJson = ((TextMessage) message).getText();
                     System.out.println("Message received: " + weatherJson);
-                    messageSaver.receiveAndSaveMessage(weatherJson);
+                    eventStore.saveEvent(weatherJson);
                 } catch (JMSException e) {
                     throw new RuntimeException(e);
                 }
