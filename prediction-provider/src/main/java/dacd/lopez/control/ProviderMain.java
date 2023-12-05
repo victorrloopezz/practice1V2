@@ -3,7 +3,7 @@ package dacd.lopez.control;
 import java.util.TimerTask;
 import java.util.Timer;
 
-public class Main {
+public class ProviderMain {
     public static void main(String[] args) {
 
         Timer timer = new Timer();

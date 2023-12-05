@@ -30,7 +30,7 @@ public class JmsWeatherStore implements WeatherStore {
 
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(Instant.class, (JsonSerializer<Instant>) (src, typeOfSrc, context) ->
-                            context.serialize(src.getEpochSecond()))
+                            context.serialize(src.toString()))
                     .create();
 
             String weatherJson = gson.toJson(weather);
@@ -38,7 +38,7 @@ public class JmsWeatherStore implements WeatherStore {
 
             producer.send(weatherMessage);
 
-            System.out.println("Weather sent to JMS broker:" + weatherJson);
+            System.out.println("Weather sent to broker:" + weatherJson);
 
             connection.close();
         } catch (JMSException e) {
