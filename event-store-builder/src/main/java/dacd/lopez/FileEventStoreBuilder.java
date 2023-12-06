@@ -6,13 +6,11 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class FileEventStoreBuilder implements Listener {
-    private String path;
+    private final String path;
 
     public FileEventStoreBuilder(String path) {
         this.path = path;
@@ -27,11 +25,10 @@ public class FileEventStoreBuilder implements Listener {
         String ssValue = jsonObject.get("ss").getAsString();
         String tsValue = jsonObject.get("ts").getAsString();
 
-        Instant instant = Instant.parse(tsValue);
-        LocalDateTime dateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        ZonedDateTime zonedDateTime = ZonedDateTime.parse(tsValue);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String formattedDate = dateTime.format(formatter);
+        String formattedDate = zonedDateTime.format(formatter);
 
         String directoryPath = path + "\\" + ssValue;
         File directory = new File(directoryPath);

@@ -4,20 +4,17 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import javax.jms.*;
 
 public class AMQTopicSubscriber implements Subscriber{
-    private final String url;
     private final Connection connection;
-    private static String clientId = "event-store-builder";
+    private final String clientId = "event-store-builder";
     private final Session session;
 
     public AMQTopicSubscriber(String url) throws JMSException {
-        this.url = url;
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         connection = connectionFactory.createConnection();
         connection.setClientID(clientId);
         connection.start();
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
     }
-
 
     @Override
     public void start(String topicName, Listener listener) {
@@ -36,5 +33,4 @@ public class AMQTopicSubscriber implements Subscriber{
             throw new RuntimeException("Error setting up MessageListener", e);
         }
     }
-
 }

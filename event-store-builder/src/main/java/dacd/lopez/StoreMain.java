@@ -8,5 +8,4 @@ public class StoreMain {
         Listener listener = new FileEventStoreBuilder(args[2]);
         subscriber.start(args[1], listener);
     }
-
 }
