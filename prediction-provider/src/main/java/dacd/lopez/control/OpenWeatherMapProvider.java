@@ -23,7 +23,7 @@ public class OpenWeatherMapProvider implements WeatherProvider {
         Weather weatherObject = null;
         try {
             String url = "https://api.openweathermap.org/data/2.5/forecast?lat=" + location.getLatitude() +
-                    "&lon=" + location.getLongitude() + apiKey + "&units=metric";
+                    "&lon=" + location.getLongitude() + "&appid=" + apiKey + "&units=metric";
 
             String jsonString = Jsoup.connect(url).ignoreContentType(true).execute().body();
 
