@@ -13,7 +13,7 @@ public class FileEventStoreBuilder implements Listener {
     private final String path;
 
     public FileEventStoreBuilder(String path) {
-        this.path = "eventstore/prediction.Weather";
+        this.path = "datalake/prediction.Weather";
     }
 
     @Override

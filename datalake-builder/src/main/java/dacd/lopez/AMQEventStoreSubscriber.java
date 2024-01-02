@@ -3,12 +3,12 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class AMQTopicSubscriber implements Subscriber{
+public class AMQEventStoreSubscriber implements Subscriber{
     private final Connection connection;
-    private final String clientId = "event-store-builder";
+    private final String clientId = "datalake-builder";
     private final Session session;
 
-    public AMQTopicSubscriber(String url) throws JMSException {
+    public AMQEventStoreSubscriber(String url) throws JMSException {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         connection = connectionFactory.createConnection();
         connection.setClientID(clientId);

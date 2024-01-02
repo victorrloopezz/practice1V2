@@ -34,7 +34,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>dacd.lopez.control.ProviderMain</mainClass>
+                            <mainClass>dacd.lopez.control.PredictionProviderMain</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>

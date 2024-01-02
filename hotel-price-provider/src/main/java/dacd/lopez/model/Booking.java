@@ -38,20 +38,8 @@ public class Booking {
           this.check_out = check_out;
      }
 
-     public JSONArray getRates() {
-          return rates;
-     }
-
      public void setRates(JSONArray rates) {
           this.rates = rates;
-     }
-
-     public Hotel getHotel() {
-          return hotel;
-     }
-
-     public void setHotel(Hotel hotel) {
-          this.hotel = hotel;
      }
 
      public JSONObject toJSON() {
@@ -61,6 +49,8 @@ public class Booking {
           jsonHotel.put("location", hotel.getLocation());
           jsonHotel.put("hotel_name", hotel.getHotel_name());
           jsonHotel.put("rates", rates);
+          jsonHotel.put("ss", ss);
+          jsonHotel.put("ts", ts.toString());
           return jsonHotel;
      }
 }
