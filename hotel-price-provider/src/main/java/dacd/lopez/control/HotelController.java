@@ -28,7 +28,7 @@ public class HotelController {
         }
     }
 
-    List<Hotel> createHotelList() {
+    private List<Hotel> createHotelList() {
         return List.of(
                 new Hotel("Gran Canaria", "BlueBay Beach-Club", "g562818-d677815"),
                 new Hotel("Gran Canaria", "Lopesan Baobab Resort", "g2089121-d1488268"),

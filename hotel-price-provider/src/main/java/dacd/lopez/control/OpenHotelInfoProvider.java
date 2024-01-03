@@ -19,11 +19,11 @@ public class OpenHotelInfoProvider implements HotelInfoProvider {
     @Override
     public Booking getHotel(Hotel hotel, Booking booking) {
         Instant now = Instant.now().plusSeconds(24 * 60 * 60);
-        Instant fiveDaysLater = now.plusSeconds(4 * 24 * 60 * 60);
+        Instant lastDay = now.plusSeconds(3 * 24 * 60 * 60);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String chkInDate = LocalDateTime.ofInstant(now, ZoneOffset.UTC).format(formatter);
-        String chkOutDate = LocalDateTime.ofInstant(fiveDaysLater, ZoneOffset.UTC).format(formatter);
+        String chkOutDate = LocalDateTime.ofInstant(lastDay, ZoneOffset.UTC).format(formatter);
 
         String apiUrl = "https://data.xotelo.com/api/rates?hotel_key=" + hotel.getHotel_key() +
                 "&chk_in=" + chkInDate + "&chk_out=" + chkOutDate;
