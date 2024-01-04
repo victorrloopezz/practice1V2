@@ -12,6 +12,7 @@
         <module>prediction-provider</module>
         <module>datalake-builder</module>
         <module>hotel-price-provider</module>
+        <module>canary-insights-business-unit</module>
     </modules>
 
     <properties>

@@ -46,6 +46,7 @@ public class OpenHotelInfoProvider implements HotelInfoProvider {
             booking.setCheck_in(chkIn);
             booking.setCheck_out(chkOut);
             booking.setRates(ratesArray);
+            System.out.println("Processing...");
 
             return booking;
         } catch (IOException e) {
