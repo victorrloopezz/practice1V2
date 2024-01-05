@@ -3,14 +3,14 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class AMQEventStoreSubscriber implements Subscriber{
+public class AMQDataLakeSubscriber implements Subscriber{
     private final Connection connection;
     private final String clientId = "datalake-builder";
     private final Session session;
     private static final String topicNameWeather = "prediction.Weather";
     private final String topicNameHotel = "hotel.booking";
 
-    public AMQEventStoreSubscriber(String url) throws JMSException {
+    public AMQDataLakeSubscriber(String url) throws JMSException {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         connection = connectionFactory.createConnection();
         connection.setClientID(clientId);

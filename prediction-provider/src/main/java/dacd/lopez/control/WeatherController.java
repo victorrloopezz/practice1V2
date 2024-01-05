@@ -45,14 +45,14 @@ public class WeatherController {
 
     private List<Location> createLocationList() {
         return List.of(
-                new Location(28.0997300, -15.4134300, "Las Palmas de Gran Canaria"),
-                new Location(28.46824, -16.25462, "Santa Cruz de Tenerife"),
-                new Location(28.7307900, -13.8674900, "Corralejo Fuerteventura"),
-                new Location(28.4932900, -17.8501300, "Fuencaliente de La Palma"),
-                new Location(27.6851600, -18.0590100, "El Pinar de El Hierro"),
+                new Location(28.0997300, -15.4134300, "Gran Canaria"),
+                new Location(28.46824, -16.25462, "Tenerife"),
+                new Location(28.7307900, -13.8674900, "Fuerteventura"),
+                new Location(28.4932900, -17.8501300, "La Palma"),
+                new Location(27.6851600, -18.0590100, "El Hierro"),
                 new Location(29.2523, -13.5091, "La Graciosa"),
-                new Location(28.0997300, -15.4134300, "Tiagua Lanzarote"),
-                new Location(28.168611, -17.1966667, "Hermigua La Gomera")
+                new Location(28.0997300, -15.4134300, "Lanzarote"),
+                new Location(28.168611, -17.1966667, "La Gomera")
         );
     }
 

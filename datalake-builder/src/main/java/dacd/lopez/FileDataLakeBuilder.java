@@ -9,11 +9,10 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class FileWriterLogic implements Listener {
+public class FileDataLakeBuilder implements Listener {
     private final String path;
-    private final String fileName = "all_events";
 
-    public FileWriterLogic(String path) {
+    public FileDataLakeBuilder(String path) {
         this.path = path;
     }
 
@@ -23,17 +22,17 @@ public class FileWriterLogic implements Listener {
         Gson gson = new Gson();
         JsonObject jsonObject = gson.fromJson(message, JsonObject.class);
 
+        String ssValue = jsonObject.get("ss").getAsString();
         String tsValue = jsonObject.get("ts").getAsString();
 
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(tsValue);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String formattedDate = zonedDateTime.format(formatter);
 
-        String directoryPath = path + File.separator + formattedDate;
+        String directoryPath = path + File.separator + topicName + File.separator + ssValue;
         createDirectory(directoryPath);
 
-        String filePath = directoryPath + File.separator + fileName + ".events";
-
+        String filePath = directoryPath + File.separator + formattedDate + ".events";
         writeMessageToFile(filePath, message);
     }
 
