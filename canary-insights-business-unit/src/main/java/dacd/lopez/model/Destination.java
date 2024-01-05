@@ -1,8 +1,5 @@
 package dacd.lopez.model;
 
-import dacd.lopez.model.HotelReservationEvent;
-import dacd.lopez.model.WeatherEvent;
-
 public class Destination {
     private String location;
     private double temperature;
