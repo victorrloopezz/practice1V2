@@ -1,4 +1,4 @@
-package dacd.lopez.control;
+package dacd.lopez;
 
 import java.util.List;
 

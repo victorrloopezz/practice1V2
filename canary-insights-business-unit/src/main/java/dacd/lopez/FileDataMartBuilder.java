@@ -1,4 +1,4 @@
-package dacd.lopez.control;
+package dacd.lopez;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

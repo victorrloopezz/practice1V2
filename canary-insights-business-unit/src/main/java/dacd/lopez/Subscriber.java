@@ -1,6 +1,6 @@
-package dacd.lopez.control;
+package dacd.lopez;
 
-import dacd.lopez.control.Listener;
+import dacd.lopez.Listener;
 
 public interface Subscriber {
     void start(Listener listener);

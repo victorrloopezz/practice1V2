@@ -1,4 +1,4 @@
-package dacd.lopez.control;
+package dacd.lopez;
 
 import javax.jms.JMSException;
 import java.io.File;
