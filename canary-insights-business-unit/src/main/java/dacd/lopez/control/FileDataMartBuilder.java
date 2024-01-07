@@ -18,6 +18,10 @@ public class FileDataMartBuilder implements Listener {
         this.path = path;
     }
 
+    public String getDatamartPath() {
+        return path;
+    }
+
     @Override
     public void consume(String message, String topicName) {
         System.out.println("message:" + message);
