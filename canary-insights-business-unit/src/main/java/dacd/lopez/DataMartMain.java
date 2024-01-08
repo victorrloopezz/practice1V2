@@ -1,4 +1,4 @@
-package dacd.lopez.view;
+package dacd.lopez;
 
 import dacd.lopez.controller.AMQTopicsNoDurableSubscriber;
 import dacd.lopez.controller.FileDataMartBuilder;

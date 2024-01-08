@@ -4,63 +4,51 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 public class BusinessUnit {
-    private final Scanner scanner;
+    public static final SimpleDateFormat predictionTsFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public BusinessUnit() {
-        this.scanner = new Scanner(System.in);
-    }
-
-    public void chooseLocation() {
-        String fileName = generateDataMartFileName();
-        List<String> events = readDataMart(fileName);
-
-        System.out.print("Insert the location (island): ");
-        String locationInput = scanner.nextLine();
-
-        List<String> locationEvents = filterEventsByLocation(events, locationInput);
-        if (!locationEvents.isEmpty()) {
-            List<double[]> weatherDataDataList = extractWeatherData(locationEvents);
-            displayClimaticData(weatherDataDataList);
-
-            List<String> orderHotels = sortHotelsByRate(locationEvents);
-            displaySortedHotels(orderHotels);
-        } else {
-            System.out.println("There are not events for the selected location.");
-        }
-
-        scanner.close();
-    }
-
-    private List<String> readDataMart(String filePath) {
+    public static List<String> readDataMart(String filePath) {
         List<String> events = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                events.add(line);
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                events.add(linea);
             }
         } catch (IOException e) {
-            System.err.println("Error reading file: " + new File(filePath).getAbsolutePath());
+            System.err.println("Fail reading file: " + new File(filePath).getAbsolutePath());
             e.printStackTrace();
         }
         return events;
     }
 
-    private List<String> filterEventsByLocation(List<String> events, String location) {
-        List<String> eventLocation = new ArrayList<>();
-        for (String event : events) {
-            if (event.contains("\"name\":\"" + location + "\"") || (event.contains("\"location\":\"" + location + "\""))) {
-                eventLocation.add(event);
-            }
-        }
-        return eventLocation;
+    public static String generateDataMartFileName() {
+        LocalDate currentDate = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return "datamart" + File.separator + "eventstore" + File.separator + currentDate.format(formatter)
+                + File.separator + "all_events.events";
     }
 
-    private List<double[]> extractWeatherData(List<String> locationEvents) {
+    public static List<String> filterEventsByLocation(List<String> events, String location) {
+        List<String> locationEvents = new ArrayList<>();
+        for (String event : events) {
+            if (event.contains("\"name\":\"" + location + "\"") || (event.contains("\"location\":\"" + location + "\""))) {
+                locationEvents.add(event);
+            }
+        }
+        return locationEvents;
+    }
+
+    public static List<double[]> extractWeather(List<String> locationEvents) {
         List<double[]> weatherList = new ArrayList<>();
 
         for (String event : locationEvents) {
@@ -70,27 +58,65 @@ public class BusinessUnit {
             }
 
             String[] tokens = event.substring(startIdx).split(",");
-            double[] weatherData = new double[5];
+            if (tokens.length >= 5) {
+                double[] weather = new double[6];
+                String predictionTs = extractPredictionTs(event);
+                try {
+                    Date predictionDate = predictionTsFormat.parse(predictionTs);
+                    weather[5] = predictionDate.getTime();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                    continue;
+                }
+                weather[0] = parseDoubleValue(tokens[0]);
+                weather[1] = parseDoubleValue(tokens[1]);
+                weather[2] = parseDoubleValue(tokens[2]);
+                weather[3] = parseDoubleValue(tokens[3]);
+                weather[4] = parseDoubleValue(tokens[4]);
 
-            weatherData[0] = Double.parseDouble(tokens[0].split(":")[1].trim());
-            weatherData[1] = Double.parseDouble(tokens[1].split(":")[1].trim());
-            weatherData[2] = Double.parseDouble(tokens[2].split(":")[1].trim());
-            weatherData[3] = Double.parseDouble(tokens[3].split(":")[1].trim());
-            weatherData[4] = Double.parseDouble(tokens[4].split(":")[1].replaceAll("[^0-9.]", "").trim()); // Humedad
-
-            weatherList.add(weatherData);
+                weatherList.add(weather);
+            }
         }
 
         return weatherList;
     }
 
-    private List<String> sortHotelsByRate(List<String> locationEvents) {
+    private static String extractPredictionTs(String event) {
+        int startIdx = event.indexOf("predictionTs");
+        if (startIdx == -1) {
+            return null;
+        }
+
+        String[] tokens = event.substring(startIdx).split(",");
+        return tokens[0].split(":")[1].replaceAll("[^0-9T-]", "").trim();
+    }
+
+    public static double parseDoubleValue(String token) {
+        String[] parts = token.split(":");
+        if (parts.length > 1 && !parts[1].trim().isEmpty()) {
+            try {
+                return Double.parseDouble(parts[1].trim());
+            } catch (NumberFormatException e) {
+                // Puedes manejar la excepción aquí si es necesario
+                e.printStackTrace();
+            }
+        }
+        return 0.0;
+    }
+
+
+    public static List<String> sortHotelsByRate(List<String> locationEvents) {
         List<String> bestHotelsSorted = new ArrayList<>();
 
         for (String event : locationEvents) {
             int ratesIndex = event.indexOf("\"rates\"");
-            if (ratesIndex != -1) {
+            int checkInIndex = event.indexOf("\"check_in\"");
+            int checkOutIndex = event.indexOf("\"check_out\"");
+            if (ratesIndex != -1 && checkInIndex != -1 && checkOutIndex != -1) {
                 String ratesSubstring = event.substring(ratesIndex);
+                String checkInSubstring = event.substring(checkInIndex);
+                String checkOutSubstring = event.substring(checkOutIndex);
+
                 String[] rateTokens = ratesSubstring.split("\"rate\":");
                 List<Double> rates = new ArrayList<>();
 
@@ -104,51 +130,45 @@ public class BusinessUnit {
                 if (!rates.isEmpty()) {
                     double minRate = Collections.min(rates);
                     String hotelName = extractHotelNameFromEvent(event);
-                    bestHotelsSorted.add(hotelName + ": " + minRate);
+
+                    String checkIn = extractDateFromEvent(checkInSubstring);
+                    String checkOut = extractDateFromEvent(checkOutSubstring);
+
+                    bestHotelsSorted.add(hotelName + ": " + minRate + "€ - Check-in: " + checkIn + " - Check-out: " + checkOut);
                 }
             }
         }
 
-        Collections.sort(bestHotelsSorted, Comparator.comparingDouble(this::extractRateFromHotelEntry));
+        Collections.sort(bestHotelsSorted, Comparator.comparingDouble(BusinessUnit::extractRateFromHotelEntry));
 
         return bestHotelsSorted;
     }
 
-    private String extractHotelNameFromEvent(String event) {
-        int hotelNameIndex = event.indexOf("\"hotel_name\":\"");
-        if (hotelNameIndex != -1) {
-            int endIndex = event.indexOf("\",", hotelNameIndex);
-            return event.substring(hotelNameIndex + "\"hotel_name\":\"".length(), endIndex);
+    private static String extractDateFromEvent(String dateSubstring) {
+        int startIndex = dateSubstring.indexOf(":\"") + 2;
+        int endIndex = dateSubstring.indexOf("\",");
+        if (startIndex != -1 && endIndex != -1) {
+            return dateSubstring.substring(startIndex, endIndex);
         }
         return "";
     }
 
-    private double extractRateFromHotelEntry(String hotelEntry) {
-        return Double.parseDouble(hotelEntry.split(":")[1].trim());
-    }
-
-    private static String generateDataMartFileName() {
-        LocalDate currentDate = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return "datamart" + File.separator + "eventstore" + File.separator + currentDate.format(formatter)
-                + File.separator + "all_events.events";
-    }
-
-    private void displayClimaticData(List<double[]> weatherList) {
-        System.out.println("\nWeather data for the island selected (for the first to the last day):");
-        for (double[] weather : weatherList) {
-            System.out.println("Temperature: " + weather[0] + "°C");
-            System.out.println("Humidity: " + weather[1]);
-            System.out.println("Rain Probability: " + weather[2] + "%");
-            System.out.println("Clouds: " + weather[3]);
-            System.out.println("Wind Speed: " + weather[4] + " m/s" + "\n");
+    private static String extractHotelNameFromEvent(String event) {
+        int hotelNameIndex = event.indexOf("\"name\":\"");
+        if (hotelNameIndex != -1) {
+            int endIndex = event.indexOf("\",", hotelNameIndex);
+            return event.substring(hotelNameIndex + "\"name\":\"".length(), endIndex);
         }
+        return "";
     }
 
-    private void displaySortedHotels(List<String> sortedHotels) {
-        System.out.println("\nHotels sorted by the cheepeast:");
-        for (String hotelEntry : sortedHotels) {
-            System.out.println(hotelEntry + "€");
+    private static double extractRateFromHotelEntry(String hotelEntry) {
+        String numericPart = hotelEntry.replaceAll("[^\\d.]", "");
+        if (!numericPart.isEmpty()) {
+            numericPart = numericPart.replaceFirst("\\.(?=.*\\.)", "");
+            return Double.parseDouble(numericPart);
         }
+        return 0.0;
     }
+
 }
