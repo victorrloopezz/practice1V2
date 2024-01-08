@@ -16,7 +16,7 @@ public class UserInterface {
         String fileName = BusinessUnit.generateDataMartFileName();
         List<String> events = BusinessUnit.readDataMart(fileName);
 
-        System.out.print("Choose your island destination: ");
+        System.out.print("Choose your destination (Island): ");
         String inputLocation = scanner.nextLine();
 
         List<String> locationEvents = BusinessUnit.filterEventsByLocation(events, inputLocation);

@@ -20,9 +20,9 @@ public class BusinessUnit {
     public static List<String> readDataMart(String filePath) {
         List<String> events = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String linea;
-            while ((linea = br.readLine()) != null) {
-                events.add(linea);
+            String line;
+            while ((line = br.readLine()) != null) {
+                events.add(line);
             }
         } catch (IOException e) {
             System.err.println("Fail reading file: " + new File(filePath).getAbsolutePath());
@@ -97,7 +97,6 @@ public class BusinessUnit {
             try {
                 return Double.parseDouble(parts[1].trim());
             } catch (NumberFormatException e) {
-                // Puedes manejar la excepción aquí si es necesario
                 e.printStackTrace();
             }
         }
