@@ -1,4 +1,4 @@
-package dacd.lopez;
+package dacd.lopez.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -16,10 +16,6 @@ public class FileDataMartBuilder implements Listener {
 
     public FileDataMartBuilder(String path) {
         this.path = path;
-    }
-
-    public String getDatamartPath() {
-        return path;
     }
 
     @Override

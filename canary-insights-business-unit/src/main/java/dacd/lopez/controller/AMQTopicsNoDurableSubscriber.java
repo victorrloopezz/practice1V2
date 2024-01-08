@@ -1,16 +1,16 @@
-package dacd.lopez;
+package dacd.lopez.controller;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class AMQDataMartSubscriber implements Subscriber {
+public class AMQTopicsNoDurableSubscriber implements Subscriber {
     private final Connection connection;
     private final Session session;
     private static final String topicNameWeather = "prediction.Weather";
     private static final String topicNameHotel = "hotel.booking";
 
-    public AMQDataMartSubscriber(String url) throws JMSException {
+    public AMQTopicsNoDurableSubscriber(String url) throws JMSException {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         connection = connectionFactory.createConnection();
         connection.start();

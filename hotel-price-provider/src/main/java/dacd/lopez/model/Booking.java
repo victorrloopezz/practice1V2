@@ -42,14 +42,6 @@ public class Booking {
           this.rates = rates;
      }
 
-     public JSONArray getRates() {
-          return rates;
-     }
-
-     public Hotel getHotel() {
-          return hotel;
-     }
-
      public JSONObject toJSON() {
           JSONObject jsonHotel = new JSONObject();
           jsonHotel.put("chk_in", getCheck_in());

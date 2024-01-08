@@ -1,4 +1,4 @@
-package dacd.lopez;
+package dacd.lopez.model;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +19,7 @@ public class BusinessUnit {
         String fileName = generateDataMartFileName();
         List<String> events = readDataMart(fileName);
 
-        System.out.print("Ingrese el nombre de la ubicación (isla): ");
+        System.out.print("Insert the location (island): ");
         String locationInput = scanner.nextLine();
 
         List<String> locationEvents = filterEventsByLocation(events, locationInput);
@@ -30,7 +30,7 @@ public class BusinessUnit {
             List<String> orderHotels = sortHotelsByRate(locationEvents);
             displaySortedHotels(orderHotels);
         } else {
-            System.out.println("No hay eventos para la ubicación ingresada.");
+            System.out.println("There are not events for the selected location.");
         }
 
         scanner.close();
@@ -44,7 +44,7 @@ public class BusinessUnit {
                 events.add(line);
             }
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + new File(filePath).getAbsolutePath());
+            System.err.println("Error reading file: " + new File(filePath).getAbsolutePath());
             e.printStackTrace();
         }
         return events;
@@ -135,18 +135,18 @@ public class BusinessUnit {
     }
 
     private void displayClimaticData(List<double[]> weatherList) {
-        System.out.println("\nDatos climáticos de la isla seleccionada:");
+        System.out.println("\nWeather data for the island selected (for the first to the last day):");
         for (double[] weather : weatherList) {
-            System.out.println("Temperatura: " + weather[0] + "°C");
-            System.out.println("Humedad: " + weather[1]);
-            System.out.println("Probabilidad de lluvia: " + weather[2] + "%");
-            System.out.println("Nubes: " + weather[3]);
-            System.out.println("Velocidad del viento: " + weather[4] + " m/s" + "\n");
+            System.out.println("Temperature: " + weather[0] + "°C");
+            System.out.println("Humidity: " + weather[1]);
+            System.out.println("Rain Probability: " + weather[2] + "%");
+            System.out.println("Clouds: " + weather[3]);
+            System.out.println("Wind Speed: " + weather[4] + " m/s" + "\n");
         }
     }
 
     private void displaySortedHotels(List<String> sortedHotels) {
-        System.out.println("\nHoteles ordenados por el precio más bajo:");
+        System.out.println("\nHotels sorted by the cheepeast:");
         for (String hotelEntry : sortedHotels) {
             System.out.println(hotelEntry + "€");
         }
