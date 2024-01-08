@@ -35,8 +35,21 @@ The Timer class is used to execute periodic tasks, in this case, obtaining and s
 
 
 
-## Event-Store-Builder Class Diagram 
-![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/8226b332-871d-4355-a6d2-28b0db32f770)
+## DataLake-Builder Class Diagram 
+![DataLake2](https://github.com/victorrloopezz/practice1V2/assets/145262837/63bd3910-e595-4322-b4f6-4b28c393bbc8)
+
+
+
+## Hotel-Price-Provider Class Diagram
+![HotelInfo](https://github.com/victorrloopezz/practice1V2/assets/145262837/99f95230-85e1-48a2-8f5f-b6ddaa8a2bf2)
+
+
+
+## Canary-Insights-Business-Unit Class Diagram
+![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/5ce56640-91c1-4bca-a6b7-55c56c40c41f)
+
+
+
 
 
 
