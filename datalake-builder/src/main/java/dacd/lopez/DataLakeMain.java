@@ -11,7 +11,7 @@ public class DataLakeMain {
 
         String dataLakePath = rootDirectory + File.separator + "datalake" + File.separator + "eventstore";
 
-        Subscriber subscriber = new AMQTopicsDurableSubscriber(activeMQUrl);
+        Subscriber subscriber = new AMQTopicsSubscriber(activeMQUrl);
         Listener listener = new FileDataLakeBuilder(dataLakePath);
         subscriber.start(listener);
     }

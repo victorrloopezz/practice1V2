@@ -153,10 +153,10 @@ public class BusinessUnit {
     }
 
     private static String extractHotelNameFromEvent(String event) {
-        int hotelNameIndex = event.indexOf("\"name\":\"");
+        int hotelNameIndex = event.indexOf("\"hotel_name\":\"");
         if (hotelNameIndex != -1) {
             int endIndex = event.indexOf("\",", hotelNameIndex);
-            return event.substring(hotelNameIndex + "\"name\":\"".length(), endIndex);
+            return event.substring(hotelNameIndex + "\"hotel_name\":\"".length(), endIndex);
         }
         return "";
     }
@@ -169,5 +169,7 @@ public class BusinessUnit {
         }
         return 0.0;
     }
+
+
 
 }
