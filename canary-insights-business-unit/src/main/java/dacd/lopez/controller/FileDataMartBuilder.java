@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter;
 public class FileDataMartBuilder implements Listener {
     private final String path;
     private final String fileName = "all_events";
-    private static boolean datamartCleared = false;
+    private static boolean datamartUpdated = false;
 
     public FileDataMartBuilder(String path) {
         this.path = path;
@@ -30,9 +30,9 @@ public class FileDataMartBuilder implements Listener {
         ZonedDateTime zonedDateTime = ZonedDateTime.parse(tsValue);
 
         if (zonedDateTime.toLocalDate().equals(LocalDate.now())) {
-            if (!datamartCleared) {
-                clearDataMart();
-                datamartCleared = true;
+            if (!datamartUpdated) {
+                updateDataMart();
+                datamartUpdated = true;
             }
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             String formattedDate = zonedDateTime.format(formatter);
@@ -47,7 +47,7 @@ public class FileDataMartBuilder implements Listener {
         }
     }
 
-    private void clearDataMart() {
+    private void updateDataMart() {
         File baseDirectory = new File(path);
         File[] subdirectories = baseDirectory.listFiles(File::isDirectory);
 
