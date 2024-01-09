@@ -51,7 +51,8 @@ The Timer class is used to execute periodic tasks, in this case, obtaining and s
 
 
 ## Canary-Insights-Business-Unit Class Diagram
-![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/5ce56640-91c1-4bca-a6b7-55c56c40c41f)
+![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/1a4c4c4b-cf06-4244-a4f9-425f80171e2e)
+
 
 
 
