@@ -2,7 +2,10 @@
 DACD, Degree in Data Science and Engineering, academic year 2023-24, ULPGC, School of Computer Engineering.
 
 ## Functionality
-This project involves an intelligent travel planning application for the Canary Islands. It combines weather data obtained from previous projects with new event data to showcase to customers, among the best hotels in the selected location, those offering the best prices for a 3-night stay. The project consists of four main modules. The first module (prediction-provider) retrieves weather data from the OpenWeatherMap API, sends it to a message broker using Java Message Service (JMS). Also the hotel-price-provider retrieves hotel data from the Xotelo API, sends it to a message broker using Java Message Service (JMS) module. Then, the datalake-builder module subscribes to the broker(durable), processes the received messages, and stores them into a datalake. And Finally, canary-insigths-business-unit module subscribes to the broker(no durable) processes the received messages, and stores them into a datamart, furthermore in this module the aplication interact with the client through CLI. 
+This project involves an intelligent travel planning application for the Canary Islands. It combines weather data obtained from previous projects with new event data to showcase to customers, among the best hotels in the selected location, those offering the best prices for a 3-night stay. The project consists of four main modules. The first module (prediction-provider) retrieves weather data from the OpenWeatherMap API, sends it to a message broker using Java Message Service (JMS). Also the hotel-price-provider retrieves hotel data from the Xotelo API, sends it to a message broker using Java Message Service (JMS) module. Then, the datalake-builder module subscribes to the broker(durable), processes the received messages, and stores them into a datalake. And Finally, canary-insigths-business-unit module subscribes to the broker(durable) processes the received messages, and stores them into a datamart, furthermore in this module the aplication interact with the client through CLI. 
+
+## How to use it
+When running the main class, when prompted to choose an island, you must enter the name of one of the 8 Canary Islands, grammatically correct. Before that, you the other modules must be runned and the events must be ready to be consumed.
 
 ## Resources Used
 ### Development Environment and Version Control Tools:
@@ -30,6 +33,8 @@ The Timer class is used to execute periodic tasks, in this case, obtaining and s
 
 *Composition and Aggregation (Controllers):* The controllers is composed of instances of Providers and Stores, providing flexibility when changing implementations without modifying the controllers.
 
+*MVC:* The MVC pattern separates concerns of presentation, business logic, and event control. The model handles business logic and data manipulation, the view takes care of user presentation, and the controller coordinates interactions between the view and the model.
+
 ## Prediction-Provider Class Diagram 
 ![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/ae60cd67-fbbc-4438-87db-0cb850e2d2aa)
 
@@ -46,7 +51,8 @@ The Timer class is used to execute periodic tasks, in this case, obtaining and s
 
 
 ## Canary-Insights-Business-Unit Class Diagram
-![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/5ce56640-91c1-4bca-a6b7-55c56c40c41f)
+![image](https://github.com/victorrloopezz/practice1V2/assets/145262837/1a4c4c4b-cf06-4244-a4f9-425f80171e2e)
+
 
 
 
